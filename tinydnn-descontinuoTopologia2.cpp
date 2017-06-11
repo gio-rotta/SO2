@@ -1,5 +1,11 @@
 #include <iostream>
-
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+#include "sys/times.h"
+#include "sys/vtimes.h"
+#include "sys/types.h"
+#include "sys/sysinfo.h"
 #include "tiny_dnn/tiny_dnn.h"
 
 using namespace tiny_dnn;
@@ -46,10 +52,62 @@ int main() {
 	// Treinamento da rede
 	size_t batch_size = BATCH_SIZE;
 	size_t epochs = ITERATIONS;
-	adagrad opt;
-	std::cout << "Initially maps to " << net.predict(in)[0] << " but should map to 7" << std::endl;
+	
+    /* CPU UTILIZATION INIT*/;
+    static clock_t lastCPU, lastSysCPU, lastUserCPU;
+    static int numProcessors;
+
+    void init(){
+        FILE* file;
+        struct tms timeSample;
+        char line[128];
+
+        lastCPU = times(&timeSample);
+        lastSysCPU = timeSample.tms_stime;
+        lastUserCPU = timeSample.tms_utime;
+
+        file = fopen("/proc/cpuinfo", "r");
+        numProcessors = 0;
+        while(fgets(line, 128, file) != NULL){
+            if (strncmp(line, "processor", 9) == 0) numProcessors++;
+        }
+        fclose(file);
+    }
+
+    init();
+
+    // Treinamento da rede
+    adagrad opt;
+    // std::cout << "Initially maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
     net.fit<mse>(opt, data, target, batch_size, epochs);
-	std::cout << "After training maps to " << net.predict(in)[0] << " but should map to 7" << std::endl;
+    // std::cout << "After training maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
+
+          /* Total CPU used */
+
+    double getCurrentValue(){
+        struct tms timeSample;
+        clock_t now;
+        float percent;
+
+        now = times(&timeSample);
+        if (now <= lastCPU || timeSample.tms_stime < lastSysCPU ||
+            timeSample.tms_utime < lastUserCPU){
+            //Overflow detection. Just skip this value.
+            percent = -1.0;
+        }
+        else{
+            percent = (timeSample.tms_stime - lastSysCPU) +
+                (timeSample.tms_utime - lastUserCPU);
+            percent /= (now - lastCPU);
+            percent /= numProcessors;
+            percent *= 100;
+        }
+        lastCPU = now;
+        lastSysCPU = timeSample.tms_stime;
+        lastUserCPU = timeSample.tms_utime;
+
+        return percent;
+    }
 
 	// Salvar rede
 	net.save("net");
