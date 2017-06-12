@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <cmath>
-#include "../../fann/src/floatfann.c"
+#include "../../../fann/src/floatfann.c"
 #include <typeinfo>
 #include <iostream>
 #include "stdlib.h"
@@ -57,11 +57,11 @@ fann_train_data* createData()
         fclose(file);
     }
 
-    struct sysinfo memInfo;
-    sysinfo (&memInfo);
-    long long physMemUsed = memInfo.totalram - memInfo.freeram;
-    //Multiply in next statement to avoid int overflow on right hand side...
-    physMemUsed *= memInfo.mem_unit;
+    // struct sysinfo memInfo;
+    // sysinfo (&memInfo);
+    // long long physMemUsed = memInfo.totalram - memInfo.freeram;
+    // //Multiply in next statement to avoid int overflow on right hand side...
+    // physMemUsed *= memInfo.mem_unit;
 
     /* Total CPU used */
 

@@ -1,6 +1,6 @@
 g++ -std=c++11 -I/home/giovanni/Documents/UFSC\ -\ CCO/SO2/tiny-dnn/ -O3 -pthread exponencialTopologia1.cpp -o example
 
-g++ -Wall -ansi -I ../../fann/src/include -L ../../fann/src/ -fopenmp -O3 fann-descotinuoTopologia1.cpp -o example -lfann -lm
+g++ -Wall -ansi -I ../../../fann/src/include -L ../../../fann/src/ -fopenmp -O3 fann-descotinuoTopologia1.cpp -o example -lfann -lm
 
 gcc -std=c99 -Wall -Wno-unused-function -O3 -o example exponencialTopologia1.c -lm
 

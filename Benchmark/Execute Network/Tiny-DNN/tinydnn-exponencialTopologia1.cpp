@@ -131,29 +131,27 @@ int main() {
     // Criação da rede neural
     network<sequential> net;
     net << layers::fc(1, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 100) << activation::relu() 
-    net << layers::fc(100, 1)
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 100) << activation::relu() 
+    << layers::fc(100, 1);
 
-	// Criação de um dado experimental
-    vec_t in = { 5.0 };     
 
 	// Treinamento da rede
     size_t batch_size = BATCH_SIZE;
@@ -165,6 +163,8 @@ int main() {
     // std::cout << "Initially maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
     net.fit<mse>(opt, data, target, batch_size, epochs);
     // std::cout << "After training maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
+    // Criação de um dado experimental
+    vec_t in = { 5.0 };     
 
     init();
     

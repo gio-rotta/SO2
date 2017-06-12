@@ -1,7 +1,7 @@
 
 #include <cstdio>
 #include <cmath>
-#include "../../fann/src/floatfann.c"
+#include "../../../fann/src/floatfann.c"
 #include <typeinfo>
 #include <iostream>
 #include "stdlib.h"

@@ -1,6 +1,5 @@
 #include <cstdio>
 #include <cmath>
-#include "../../fann/src/floatfann.c"
 #include <typeinfo>
 #include <iostream>
 #include "stdlib.h"
@@ -10,6 +9,7 @@
 #include "sys/vtimes.h"
 #include "sys/types.h"
 #include "sys/sysinfo.h"
+#include "../../../fann/src/floatfann.c"
 
 const int DATA_NUMBER_ROWS = 1000;
 //const int BATCH_SIZE = 10000;

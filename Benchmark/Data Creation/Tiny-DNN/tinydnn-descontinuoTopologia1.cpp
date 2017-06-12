@@ -11,7 +11,10 @@
 using namespace tiny_dnn;
 using namespace std;
 
-
+    /* CPU UTILIZATION INIT*/;
+    static clock_t lastCPU, lastSysCPU, lastUserCPU;
+    static int numProcessors;
+    
     void init(){
         FILE* file;
         struct tms timeSample;
