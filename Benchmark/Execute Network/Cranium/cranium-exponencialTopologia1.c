@@ -9,35 +9,7 @@
 
 int main(){
 
-    srand(time(NULL));
-    const int DATA_NUMBER_ROWS = 1000;
-    const int BATCH_SIZE = 4;
-    const int ITERATIONS = 200;
-
-    int i;
-
-    // Criação dos data set
-    float** dataReg = (float**)malloc(sizeof(float*) * DATA_NUMBER_ROWS);
-    float** classesReg = (float**)malloc(sizeof(float*) * DATA_NUMBER_ROWS);
-    for (i = 0; i < DATA_NUMBER_ROWS; i++){
-        dataReg[i] = (float*)malloc(sizeof(float) * 1);
-        dataReg[i][0] = rand() % 20;
-    }
-
-    for (i = 0; i < DATA_NUMBER_ROWS; i++){
-        classesReg[i] = (float*)malloc(sizeof(float) * 1);
-        classesReg[i][0] = dataReg[i][0] * dataReg[i][0] + 15;
-    }
-
-    DataSet* trainingDataReg = createDataSet(DATA_NUMBER_ROWS, 1, dataReg);
-    DataSet* trainingClassesReg = createDataSet(DATA_NUMBER_ROWS, 1, classesReg);
-
-    // Criação da rede neural
-    size_t hiddenSizeReg[] = {100}; 
-    void (*hiddenActivationsReg[])(Matrix*) = {relu};
-    Network* networkReg = createNetwork(1, 20, hiddenSizeReg, hiddenActivationsReg, 1, linear);
-
-    /* CPU UTILIZATION INIT*/;
+/* CPU UTILIZATION INIT*/;
     static clock_t lastCPU, lastSysCPU, lastUserCPU;
     static int numProcessors;
 
@@ -58,10 +30,7 @@ int main(){
         fclose(file);
     }
 
-    batchGradientDescent(networkReg, trainingDataReg, trainingClassesReg, MEAN_SQUARED_ERROR, BATCH_SIZE, .01, 0, .001, .9, ITERATIONS, 1, 0);
     
-    /* Total CPU used */
-
     double getCurrentValue(){
         struct tms timeSample;
         clock_t now;
@@ -114,15 +83,22 @@ int main(){
         return result;
     }
 
+    Network* networkReg = readNetwork("cranium");
+
     float** oneEx = (float**)malloc(sizeof(float*));
     oneEx[0] = (float*)malloc(sizeof(float));
     oneEx[0][0] = i;
     DataSet* oneExData = createDataSet(1, 1, oneEx);
 
     init();
+    clock_t begin = clock();
 
     forwardPassDataSet(networkReg, oneExData);   /* code */
 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();

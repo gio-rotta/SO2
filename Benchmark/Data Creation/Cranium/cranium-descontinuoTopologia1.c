@@ -32,32 +32,6 @@ int main(){
         fclose(file);
     }
 
-    init();
-
-    srand(time(NULL));
-    const int DATA_NUMBER_ROWS = 10000;
-
-    int i;
-
-    // Criação dos data set
-    float** dataReg = (float**)malloc(sizeof(float*) * DATA_NUMBER_ROWS);
-    float** classesReg = (float**)malloc(sizeof(float*) * DATA_NUMBER_ROWS);
-
-    for (i = 0; i < DATA_NUMBER_ROWS; i++){
-        dataReg[i] = (float*)malloc(sizeof(float) * 1);
-        dataReg[i][0] = rand() % 10;
-
-        classesReg[i] = (float*)malloc(sizeof(float) * 1);
-        if (dataReg[i][0] > 5) {
-            classesReg[i][0] = dataReg[i][0] * dataReg[i][0];
-        } else {
-            classesReg[i][0] = dataReg[i][0] + 5;
-        }
-    }
-
-    DataSet* trainingDataReg = createDataSet(DATA_NUMBER_ROWS, 1, dataReg);
-    DataSet* trainingClassesReg = createDataSet(DATA_NUMBER_ROWS, 1, classesReg);
-
     struct sysinfo memInfo;
     sysinfo (&memInfo);
     long long physMemUsed = memInfo.totalram - memInfo.freeram;
@@ -89,9 +63,7 @@ int main(){
         lastUserCPU = timeSample.tms_utime;
 
         return percent;
-    }
-
-    /* Total RAM memory */
+    }    /* Total RAM memory */
 
     int parseLine(char* line){
         // This assumes that a digit will be found and the line ends in " Kb".
@@ -117,6 +89,32 @@ int main(){
         fclose(file);
         return result;
     }
+
+    init();
+
+    srand(time(NULL));
+    const int DATA_NUMBER_ROWS = 10000;
+
+    int i;
+
+    // Criação dos data set
+    float** dataReg = (float**)malloc(sizeof(float*) * DATA_NUMBER_ROWS);
+    float** classesReg = (float**)malloc(sizeof(float*) * DATA_NUMBER_ROWS);
+
+    for (i = 0; i < DATA_NUMBER_ROWS; i++){
+        dataReg[i] = (float*)malloc(sizeof(float) * 1);
+        dataReg[i][0] = rand() % 10;
+
+        classesReg[i] = (float*)malloc(sizeof(float) * 1);
+        if (dataReg[i][0] > 5) {
+            classesReg[i][0] = dataReg[i][0] * dataReg[i][0];
+        } else {
+            classesReg[i][0] = dataReg[i][0] + 5;
+        }
+    }
+
+    DataSet* trainingDataReg = createDataSet(DATA_NUMBER_ROWS, 1, dataReg);
+    DataSet* trainingClassesReg = createDataSet(DATA_NUMBER_ROWS, 1, classesReg);
 
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());

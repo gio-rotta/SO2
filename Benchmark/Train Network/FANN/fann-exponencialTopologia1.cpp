@@ -146,6 +146,7 @@ int main()
 	fann_train_data *data = createData();
 
     init();
+    clock_t begin = clock();
 
 	fann_set_training_algorithm(ann, FANN_TRAIN_RPROP);
 
@@ -154,6 +155,10 @@ int main()
 	fann_scale_train( ann, data );
 	fann_train_on_data ( ann, data, ITERATIONS, 10, 1e-8f ); // epochs, epochs between reports, desired error
 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();

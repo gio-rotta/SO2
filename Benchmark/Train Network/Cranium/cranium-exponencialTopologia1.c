@@ -86,12 +86,18 @@ int main(){
 
     init();
 
+    clock_t begin = clock();
     // Treinamento da rede
     // printf("Initially maps 5 to %f but should map to 10\n", networkReg->layers[networkReg->numLayers - 1]->input->data[0]);
     batchGradientDescent(networkReg, trainingDataReg, trainingClassesReg, MEAN_SQUARED_ERROR, BATCH_SIZE, .01, 0, .001, .9, ITERATIONS, 1, 0);
     // printf("After training maps 5 to %f but should map to 10\n", networkReg->layers[networkReg->numLayers - 1]->input->data[0]);
     // generateResults(networkReg);  
     
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
+
     /* Total CPU used */
 
     double getCurrentValue(){

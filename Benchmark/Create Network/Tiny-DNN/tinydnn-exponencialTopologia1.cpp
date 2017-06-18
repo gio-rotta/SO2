@@ -90,7 +90,8 @@ int main() {
 	using namespace tiny_dnn;
 
     init();
-	
+	clock_t begin = clock();
+
 	// Criação da rede neural
     network<sequential> net;
 	net << layers::fc(1, 100) << activation::relu() 
@@ -115,6 +116,10 @@ int main() {
     << layers::fc(100, 100) << activation::relu() 
     << layers::fc(100, 1);
 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();

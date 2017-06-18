@@ -141,6 +141,7 @@ int main() {
     size_t epochs = ITERATIONS;
 
     init();
+    clock_t begin = clock();
 
     // Treinamento da rede
     adagrad opt;
@@ -148,6 +149,10 @@ int main() {
     net.fit<mse>(opt, data, target, batch_size, epochs);
     // std::cout << "After training maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();

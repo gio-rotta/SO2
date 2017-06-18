@@ -86,96 +86,26 @@ using namespace std;
         return result;
     }
 
-void testData(network<sequential> net){
-     FILE *fp = fopen("TinyExp.txt", "w");
-    if (fp == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
-
-    for (int i = 0; i <= 20; ++i)
-    {
-        vec_t in = { i };  
-
-        int d = (i * i) + 15;
-        
-        fprintf(fp, "%d %d %f\n", i, d, net.predict(in)[0]);
-    }
-    fclose(fp);
-}
-
 int main() {
 	using namespace tiny_dnn;
 
-	srand(time(NULL));
-    const int DATA_NUMBER_ROWS = 1000;
-    const int BATCH_SIZE = 4;
-    const int ITERATIONS = 200;
-
-	int i;
-
-	// Criação dos data set
-    std::vector<vec_t> data;
-    std::vector<vec_t> target;
-    for (i = 0; i < DATA_NUMBER_ROWS; i++){
-    	float r = rand() % 20;
-    	data.push_back( { r } );	
-    }
-
-    for (i = 0; i < DATA_NUMBER_ROWS; i++){
-    	vec_t d = { ( data.at(i)[0] * data.at(i)[0] ) + 15 };
-    	target.push_back(d);
-    }
-   
     // Criação da rede neural
     network<sequential> net;
-    net << layers::fc(1, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 100) << activation::relu() 
-    << layers::fc(100, 1);
-
-
-	// Treinamento da rede
-    size_t batch_size = BATCH_SIZE;
-    size_t epochs = ITERATIONS;
-
-
-    // Treinamento da rede
-    adagrad opt;
-    // std::cout << "Initially maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
-    net.fit<mse>(opt, data, target, batch_size, epochs);
-    // std::cout << "After training maps 5 to " << net.predict(in)[0] << " but should map to 10" << std::endl;
-    // Criação de um dado experimental
-    vec_t in = { 5.0 };     
+    net.load("tinydnn");
+    vec_t in = { 5.0 };
 
     init();
+    clock_t begin = clock();
     
     float test =  net.predict(in)[0];
 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();
-
-    // testData(net);
-    net.save("tinydnn");
 
 	return 0;
 }

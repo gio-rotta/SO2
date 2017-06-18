@@ -32,20 +32,6 @@ int main(){
         fclose(file);
     }
 
-    init();
-
-
-    // Criação da rede neural
-    size_t hiddenSizeReg[] = {100}; 
-    void (*hiddenActivationsReg[])(Matrix*) = {relu};
-    Network* networkReg = createNetwork(1, 20, hiddenSizeReg, hiddenActivationsReg, 1, linear);
-
-    struct sysinfo memInfo;
-    sysinfo (&memInfo);
-    long long physMemUsed = memInfo.totalram - memInfo.freeram;
-    //Multiply in next statement to avoid int overflow on right hand side...
-    physMemUsed *= memInfo.mem_unit;
-
     /* Total CPU used */
 
     double getCurrentValue(){
@@ -100,12 +86,21 @@ int main(){
         return result;
     }
 
+    init();
+    clock_t begin = clock();
+
+    size_t hiddenSizeReg[] = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
+    size_t numHiddenLayer = {20};
+    Activation hiddenActivation[] = {relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu, relu};
+    Network* networkReg = createNetwork(1, numHiddenLayer, hiddenSizeReg, hiddenActivation, 1, linear);
+
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();
-
-    // Salvar rede
-    saveNetwork(networkReg, "REGRESSAO_PARABOLA_NETWORK2");
     
     return 0;
 };

@@ -95,19 +95,25 @@ const int HIDDEN_LAYERS = 2;
 int main(){
 
     init();
+    clock_t begin = clock();
 
 	const unsigned int num_input = 1;
 	const unsigned int num_output = 1;
 	const unsigned int num_layers = 20;
 	const unsigned int num_neurons_hidden = 100;
+    const unsigned int layers[20] = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
 
 	struct fann *ann;
 
-	ann = fann_create_standard ( num_layers, num_input, num_neurons_hidden, num_output );
+	ann = fann_create_standard_array(num_layers, layers);
 
 	fann_set_activation_function_hidden(ann, FANN_SIGMOID_SYMMETRIC);
 	fann_set_activation_function_output(ann, FANN_LINEAR);
 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("%f\n", time_spent);
     printf("%f\n", getCurrentValue());
     printf("%i\n", getValue());
     getValue();
