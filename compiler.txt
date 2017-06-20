@@ -5,3 +5,44 @@ g++ -Wall -ansi -I ../../../fann/src/include -L ../../../fann/src/ -fopenmp -O3 
 gcc -std=c99 -Wall -Wno-unused-function -O3 -o example exponencialTopologia1.c -lm
 
 sudo chrt -f 99 perf stat -r 10 -d <your app and arguments>
+
+>>>>>>>>>>>>> ARM
+
+arm-linux-gnueabi-g++ -Wall -ansi -I ../../../fann-arm/fann/src/include -L ../../../fann-arm/fann/src/ -fopenmp -O3 fann-exponencialTopologia1.cpp -o example-arm -lfann -lm
+
+arm-linux-gnueabi-g++ -std=c++11 -I/home/giovanni/Documents/UFSC\ -\ CCO/SO2/tiny-dnn-arm/tiny-dnn -O3 -pthread exponencialTopologia1.cpp -o example-arm
+
+arm-linux-gnueabi-gcc -std=c99 -Wall -Wno-unused-function -O3 -o example-arm exponencialTopologia1.c -lm
+
+FANN
+export ROOTFS_ARM=$HOME/v/rootfs/arm-xenial
+cd $HOME/v/build/fann.arm.xenial
+cmake \
+-DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_INSTALL_PREFIX=$HOME//Documents/UFSC\ -\ CCO/SO2/fann-arm/libfann.arm \
+-DCMAKE_CROSSCOMPILING=1 \
+-DCMAKE_LIBRARY_ARCHITECTURE=arm-linux-gnueabihf \
+-DCMAKE_C_COMPILER=arm-linux-gnueabi-gcc \
+-DCMAKE_CXX_COMPILER=arm-linux-gnueabi-g++ \
+-DCMAKE_C_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabi" \
+-DCMAKE_CXX_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabi" \
+$HOME/Documents/UFSC\ -\ CCO/SO2/fann-arm/fann
+https://github.com/seanshpark/help/wiki/Neural-Networks-FANN
+
+TINY-DNN
+export ROOTFS_ARM=$HOME/v/rootfs/arm-xenial
+cd $HOME/v/build/tinydnn.arm.xenial
+cmake \
+-DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_INSTALL_PREFIX=$HOME//Documents/UFSC\ -\ CCO/SO2/tiny-dnn-arm/tinydnn.arm \
+-DCMAKE_CROSSCOMPILING=1 \
+-DCMAKE_LIBRARY_ARCHITECTURE=arm-linux-gnueabihf \
+-DCMAKE_C_COMPILER=arm-linux-gnueabi-gcc \
+-DCMAKE_CXX_COMPILER=arm-linux-gnueabi-g++ \
+-DCMAKE_C_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabi" \
+-DCMAKE_CXX_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabi" \
+$HOME/Documents/UFSC\ -\ CCO/SO2/tiny-dnn-arm/tiny-dnn
+
+
+cmake --build .
+cmake --build . --target install
