@@ -30,17 +30,19 @@ $HOME/Documents/UFSC\ -\ CCO/SO2/fann-arm/fann
 https://github.com/seanshpark/help/wiki/Neural-Networks-FANN
 
 TINY-DNN
-export ROOTFS_ARM=$HOME/v/rootfs/arm-xenial
 cd $HOME/v/build/tinydnn.arm.xenial
+
+export ROOTFS_ARM=$HOME/v/rootfs/arm-xenial
 cmake \
+-DBUILD_EXAMPLES=OFF \
+-DCMAKE_INSTALL_PREFIX=$HOME//Documents/UFSC\ -\ CCO/SO2/tiny-dnn-arm/tiny-dnn \
 -DCMAKE_BUILD_TYPE=Release \
--DCMAKE_INSTALL_PREFIX=$HOME//Documents/UFSC\ -\ CCO/SO2/tiny-dnn-arm/tinydnn.arm \
 -DCMAKE_CROSSCOMPILING=1 \
 -DCMAKE_LIBRARY_ARCHITECTURE=arm-linux-gnueabihf \
 -DCMAKE_C_COMPILER=arm-linux-gnueabi-gcc \
--DCMAKE_CXX_COMPILER=arm-linux-gnueabi-g++ \
+-DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ \
 -DCMAKE_C_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabi" \
--DCMAKE_CXX_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabi" \
+-DCMAKE_CXX_FLAGS="-isystem $ROOTFS_ARM/usr/include -I$ROOTFS_ARM/usr/include/arm-linux-gnueabihf" \
 $HOME/Documents/UFSC\ -\ CCO/SO2/tiny-dnn-arm/tiny-dnn
 
 
